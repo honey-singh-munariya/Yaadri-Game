@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root, :root[data-theme='dusk'] {
+  --c-bg: 15 31 41; --c-bg2: 23 53 68; --c-surface: 27 49 64; --c-ink: 232 240 236; --c-dim: 169 189 184;
+  --c-glow: 244 185 66; --c-onglow: 38 24 6; --c-orchid: 217 140 192; --c-tea: 140 199 154; --c-danger: 240 138 122;
+  --line: rgb(232 240 236 / .14);
+}
+:root[data-theme='morning'] {
+  --c-bg: 238 243 238; --c-bg2: 223 233 227; --c-surface: 255 255 255; --c-ink: 22 48 59; --c-dim: 74 100 112;
+  --c-glow: 196 128 20; --c-onglow: 255 255 255; --c-orchid: 160 74 134; --c-tea: 47 125 79; --c-danger: 176 52 40;
+  --line: rgb(22 48 59 / .16);
+}
+:root[data-theme='contrast'] {
+  --c-bg: 0 0 0; --c-bg2: 10 10 10; --c-surface: 12 12 12; --c-ink: 255 255 255; --c-dim: 225 225 225;
+  --c-glow: 255 213 74; --c-onglow: 0 0 0; --c-orchid: 255 160 220; --c-tea: 130 255 160; --c-danger: 255 130 110;
+  --line: rgb(255 255 255 / .6);
+}
+html { font-size: 18px; }
+html[data-text='large'] { font-size: 20px; }
+html[data-text='xl'] { font-size: 22.5px; }
+
+body {
+  @apply bg-bg text-ink font-body antialiased;
+  min-height: 100dvh;
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+h1, h2, h3 { font-family: 'Baloo 2', 'Noto Sans Devanagari', 'Noto Sans Bengali', system-ui, sans-serif; letter-spacing: -0.01em; line-height: 1.1; }
+
+:focus-visible { outline: 3px solid rgb(var(--c-glow)); outline-offset: 3px; border-radius: 10px; }
+button, a, input, textarea, select { touch-action: manipulation; }
+
+/* Motion off: kill CSS animation/transition (framer-motion is handled by MotionConfig). */
+html[data-motion='off'] *, html[data-motion='off'] *::before, html[data-motion='off'] *::after {
+  animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html *, html *::before, html *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
+
+@layer components {
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 min-h-[3.1rem] font-display text-[1.05rem] font-semibold transition-[transform,box-shadow,background-color] duration-150 active:scale-[.97] disabled:opacity-50 disabled:pointer-events-none select-none; }
+  .btn-primary { @apply bg-glow text-onglow shadow-lantern hover:brightness-110; }
+  .btn-ghost { @apply bg-ink/10 text-ink hover:bg-ink/15 border border-[color:var(--line)]; }
+  .btn-danger { @apply bg-danger/15 text-danger border border-danger/50 hover:bg-danger/25; }
+  .btn-sm { @apply min-h-[2.5rem] px-4 text-[.95rem] rounded-xl; }
+  .panel { @apply rounded-3xl bg-surface/85 border border-[color:var(--line)] backdrop-blur-sm; }
+  .field { @apply w-full rounded-2xl bg-bg/60 border border-[color:var(--line)] px-4 min-h-[3.1rem] text-ink placeholder:text-dim/70; }
+  .chip { @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[.8rem] bg-ink/10 border border-[color:var(--line)] text-dim; }
+  .glowtext { text-shadow: 0 0 24px rgb(var(--c-glow) / .55); }
+}
+
+.sr-only-focusable:not(:focus):not(:active) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.scrollbar-thin::-webkit-scrollbar { height: 8px; width: 8px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgb(var(--c-ink) / .25); border-radius: 8px; }
+.pb-nav { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
+@media (min-width: 1024px) { .pb-nav { padding-bottom: 3rem; } }
+
+/* World scenery tokens (per theme) */
+:root, :root[data-theme='dusk'] {
+  --sky-a: #0b1a24; --sky-b: #1c3f50; --sky-c: #b9784a; --stars: 1;
+  --ridge-1: #2b5763; --ridge-2: #22484f; --ridge-3: #183840; --ridge-4: #0e252c; --mist: 200 225 220; --bamboo: #143a35; --bamboo-2: #0d2b2a;
+}
+:root[data-theme='morning'] {
+  --sky-a: #bcd8de; --sky-b: #e8f0e4; --sky-c: #f4dcae; --stars: 0;
+  --ridge-1: #a8c8c2; --ridge-2: #8db3aa; --ridge-3: #6e9b90; --ridge-4: #4b7a6d; --mist: 255 255 255; --bamboo: #3d7a62; --bamboo-2: #2d6350;
+}
+:root[data-theme='contrast'] {
+  --sky-a: #000; --sky-b: #050505; --sky-c: #0a0a0a; --stars: 0;
+  --ridge-1: #161616; --ridge-2: #101010; --ridge-3: #0a0a0a; --ridge-4: #000; --mist: 255 255 255; --bamboo: #0c0c0c; --bamboo-2: #000;
+}
+.parallax { transition: transform .25s ease-out; will-change: transform; }
